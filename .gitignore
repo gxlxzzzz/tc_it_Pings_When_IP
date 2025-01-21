@@ -1,6 +1,6 @@
 # Ignore all files inside .idea folder
 .idea/
-
+*.gitatributes
 # Ignore XML files
 *.xml
 
