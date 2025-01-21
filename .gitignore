@@ -1,0 +1,47 @@
+# Ignore all files inside .idea folder
+.idea/
+
+# Ignore XML files
+*.xml
+
+# Ignore IntelliJ IDEA project files
+*.iml
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temporary files
+logs/
+*.log
+
+# Ignore compiled code
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore dependency directories
+node_modules/
+target/
+out/
+
+# Ignore Python virtual environments
+venv/
+.env/
+
+# Ignore build artifacts
+dist/
+build/
+
+# Ignore JetBrains IDE-specific files
+*.ipr
+*.iws
+
+# Ignore other IDE-specific files
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
