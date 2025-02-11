@@ -1,7 +1,7 @@
 <?php
 // temporary logging test for database connection ensuring the connection was successful in V1
 try {
-    include "db_connect.php";
+    include "../dbconnect/db_connect_select.php";
     echo "Connected successfully";
 } catch (PDOException $e) {
     echo "Connection error";
