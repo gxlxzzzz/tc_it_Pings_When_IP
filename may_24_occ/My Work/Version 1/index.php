@@ -1,11 +1,11 @@
 <?php
-try {
-    include "db_connect.php"; // Reference to the database connection file
-    //echo "Connected successfully"; For testing DB connection
-} catch (PDOException $e) {
-    //echo "Connection error"; For testing DB connection
-}
-?>
+//try {
+//    include "/dbconnect/db_connect_.php"; // Reference to the database connection file
+//    //echo "Connected successfully"; For testing DB connection
+//} catch (PDOException $e) {
+//    //echo "Connection error"; For testing DB connection
+//}
+//?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

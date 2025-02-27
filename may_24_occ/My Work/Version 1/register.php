@@ -43,73 +43,76 @@
     </div>
     <button type="submit">Register</button>
 </form>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        // First, include the database connection for SELECT
+        include "dbconnect/db_connect_select.php"; // Database connection for select
+    } catch (PDOException $e) {
+        echo "Connection error: " . $e->getMessage();
+        exit();
+    }
+
+    // Sanitize inputs using filter_input
+    $usnm = filter_input(INPUT_POST, 'username');
+    $pswd = filter_input(INPUT_POST, 'password');
+    $cpswd = filter_input(INPUT_POST, 'cpassword');
+    $fname = filter_input(INPUT_POST, 'fname');
+    $sname = filter_input(INPUT_POST, 'sname');
+    $email = filter_input(INPUT_POST, 'email');
+    $signupdate = date("Y-m-d"); // Full year format
+
+    // Check if passwords match
+    if ($pswd != $cpswd) {
+        echo "<p>Your passwords do not match</p>";
+    } elseif (strlen($pswd) < 8) {
+        echo "<p>Password must be at least 8 characters long</p>";
+    } else {
+        try {
+            // Check if the username already exists using SELECT query
+            $sql = "SELECT username FROM user WHERE username = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $usnm);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                echo "<p>User exists, try another name</p>";
+            } else {
+                // If username doesn't exist, proceed to insert the new user
+                try {
+                    // Now, include the database connection for INSERT
+                    include "dbconnect/db_connect_insert.php"; // Database connection for insert
+
+                    // Hash the password before inserting into the database
+                    $hpswd = password_hash($pswd, PASSWORD_DEFAULT);
+
+                    $signupdate = date("Y-m-d"); // Correct format for DATE
+                    // Insert query with correct column names
+                    $sql = "INSERT INTO user (username, password, f_name, s_name, email, signup) VALUES (?, ?, ?, ?, ?, ?)";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindParam(1, $usnm);
+                    $stmt->bindParam(2, $hpswd);
+                    $stmt->bindParam(3, $fname);
+                    $stmt->bindParam(4, $sname);
+                    $stmt->bindParam(5, $email);
+                    $stmt->bindParam(6, $signupdate);
+
+                    $stmt->execute();
+                    echo "<p>Successfully registered</p>";
+                    header("Location: login.php?success=registered"); // Redirect to login page after successful registration
+                    exit();
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                }
+            }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+}
+?>
+
 
 </body>
 </html>
-
-
-<?php
-
-try {
-    include "db_connect.php";
-    echo "Connected successfully";
-} catch (PDOException $e) {
-    echo "Connection error";
-}
-
-
-// Sanitize inputs using filter_input
-$usnm = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-$pswd = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-$cpswd = filter_input(INPUT_POST, 'cpassword', FILTER_SANITIZE_STRING);
-$fname = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
-$sname = filter_input(INPUT_POST, 'sname', FILTER_SANITIZE_STRING);
-$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-$signupdate = date("Y-m-d");  // Full year format
-
-if($pswd != $cpswd){
-    header("Location: register.php?error=password_mismatch");
-    echo "<br>Your passwords do not match";
-} elseif(strlen($pswd) < 8){
-    header("Location: register.php?error=password_short");
-    echo "<br>Password must be at least 8 characters long";
-} else {
-    try {
-        // Corrected column name 'username'
-        $sql = "SELECT username FROM user WHERE uname = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $usnm);
-        $stmt->execute();
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if($result){
-            header("Location: register.php?error=user_exists");
-            echo "<br>User exists, try another name";
-        } else {
-            try {
-                // Hash the password before inserting into the database
-                $hpswd = password_hash($pswd, PASSWORD_DEFAULT);
-                // Insert query with correct column names
-                $sql = "INSERT INTO users (username, password, fname, sname, email, signup) VALUES (?, ?, ?, ?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(1, $usnm);
-                $stmt->bindParam(2, $hpswd);
-                $stmt->bindParam(3, $fname);
-                $stmt->bindParam(4, $sname);
-                $stmt->bindParam(5, $email);
-                $stmt->bindParam(6, $signupdate);
-
-                $stmt->execute();
-                header("Location: login.php?success=registered");
-                echo "<br>Successfully registered";
-            } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
-            }
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-}
-
-?>
