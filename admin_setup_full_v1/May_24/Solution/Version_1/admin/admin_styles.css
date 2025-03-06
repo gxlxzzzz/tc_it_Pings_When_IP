@@ -1,0 +1,12 @@
+body {
+    background: #bf9626;
+    font-family: Arial, Calibri, sans-serif ;
+}
+
+#container {
+    align-content: center;
+}
+
+ul#menu li{
+    display: inline;
+}

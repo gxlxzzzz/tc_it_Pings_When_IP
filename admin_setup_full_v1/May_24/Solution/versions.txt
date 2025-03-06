@@ -1,0 +1,35 @@
+Version 1:
+
+Build Database
+
+Admin reg / log in
+
+Admin create tickets
+
+Admin create hotel rooms
+
+Admin create user types
+
+User Registration
+
+User Login
+
+
+VERSION 2:
+
+Book tickets
+
+Book hotel Rooms
+
+Some Content Pages
+
+
+Version 3:
+
+ADMIN: Update tickets, hotel rooms, user type
+
+Cancel bookings
+
+Update bookings
+
+Other bells and whistles

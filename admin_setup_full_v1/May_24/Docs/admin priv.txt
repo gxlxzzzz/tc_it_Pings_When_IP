@@ -1,0 +1,8 @@
+ADMIN PRIVL
+
+SUPER - All things
+
+CREATOR - same as super BUT cannot add new admins
+
+EDITOR - can only UPDATE nothing else
+

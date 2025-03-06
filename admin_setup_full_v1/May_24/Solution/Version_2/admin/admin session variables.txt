@@ -1,0 +1,4 @@
+ $_SESSION["admin_ssnlogin"] = true
+ $_SESSION["username"] = $_POST['username'];
+ $_SESSION["priv"] = $result["priv"];
+ $_SESSION['SUCCESS'] = "Admin Successfully Logged In";
